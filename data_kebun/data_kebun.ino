@@ -21,14 +21,14 @@ struct dataUtama
   int water;
 };
 
-String genJSON(dataUtama data)
+String genString(dataUtama data)
 {
     char buff[64];
-    fprintf(stderr, "{\"data_air_temp\":\"%d\","
-                    "\"data_humidity\":\"%d\","
-                    "\"data_ph\":\"%d\","
-                    "\"data_ppm\":\"%d\","
-                    "\"data_water_temp\":\"%d\"}"
+    sprintf(buff,   "data_air_temp=%d&"
+                    "data_humidity=%d&"
+                    "data_ph=%d&"
+                    "data_ppm=%d&"
+                    "data_water_temp=%d&"
                     ,data.air
                     ,data.humidity
                     ,data.PH
@@ -92,9 +92,9 @@ void loop(void)
     data.PPM      = genRandom(17, 28);
     data.water    = genRandom(21, 32);
 
-    String JSONQ = genJSON(data);
+    String myString = genString(data);
 
-    int httpCode = http.POST(JSONQ);
+    int httpCode = http.POST(myString);
     Serial.printf("[HTTP] code: %d\n", httpCode);
 
     if (httpCode == HTTP_CODE_OK || httpCode == HTTP_CODE_MOVED_PERMANENTLY)
